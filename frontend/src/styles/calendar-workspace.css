@@ -1,0 +1,271 @@
+/* Responsive presentation of the shared today / week workspace. */
+.child-app .calendar-workspace {
+  border-color: #eae5f1;
+  border-radius: 24px;
+  box-shadow: 0 6px 24px #49336905;
+}
+.child-app .calendar-workspace.is-today {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  overflow: visible;
+}
+.calendar-workspace.is-today .today-tasks {
+  padding: 0;
+}
+.child-app .calendar-workspace .today-tasks > .section-heading {
+  margin: 0 0 12px;
+}
+.calendar-workspace .section-title h2 {
+  letter-spacing: -0.5px;
+}
+.calendar-workspace .count-pill {
+  min-width: 26px;
+  text-align: center;
+  border-radius: 50%;
+  background: #eee8f7;
+  color: #8772a5;
+}
+.calendar-workspace .task-manage {
+  gap: 6px;
+  padding: 0 10px;
+  border-radius: 12px;
+}
+.calendar-workspace .task-manage:hover {
+  background: #eee9f5;
+}
+.calendar-workspace .task-list-toolbar {
+  margin-bottom: 16px;
+}
+.child-app .calendar-workspace .filter-tabs {
+  background: #eeeaf4;
+  padding: 3px;
+  border-radius: 14px;
+}
+.child-app .calendar-workspace .filter-tabs button {
+  min-height: 42px;
+  border-radius: 11px;
+}
+.calendar-workspace .add-task-button {
+  min-height: 46px;
+  border-radius: 14px;
+  background: #7960b2;
+  box-shadow: 0 4px 10px #795bac1c;
+}
+.child-app .calendar-workspace .today-tasks .task-list {
+  gap: 12px;
+}
+.child-app .calendar-workspace .today-tasks .task-row {
+  min-height: 88px;
+  padding: 14px 16px;
+  gap: 12px;
+  border: 1px solid #eeeaf3;
+  border-radius: 19px;
+  background: #fff;
+  box-shadow: 0 3px 12px #49336904;
+}
+.child-app .calendar-workspace .today-tasks .task-row.task-done {
+  background: #f3f0f8;
+  border-color: #ece6f3;
+  box-shadow: none;
+}
+.child-app .calendar-workspace .check-button {
+  width: 44px;
+  height: 44px;
+  border-radius: 15px;
+  background: #fcfbfe;
+}
+.child-app .calendar-workspace .check-button.checked {
+  background: #a992cb;
+  border-color: #a992cb;
+}
+.calendar-workspace .calendar-footer {
+  flex-wrap: wrap;
+  padding: 12px 16px;
+  background: #fff;
+  border-top-color: #eeeaf4;
+}
+.calendar-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.calendar-controls .task-manage {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  white-space: nowrap;
+}
+.calendar-workspace.is-today .calendar-footer {
+  margin-top: 18px;
+  padding: 0;
+  background: transparent;
+  border: 0;
+}
+.calendar-workspace .calendar-mode-switch {
+  background: #f1edf7;
+}
+.calendar-workspace .calendar-mode-switch button[aria-pressed='true'] {
+  color: #684994;
+  box-shadow: 0 2px 6px #54387d0d;
+}
+.calendar-workspace .week-navigation {
+  gap: 0;
+  padding: 3px;
+  border-radius: 14px;
+  background: #f7f5fa;
+}
+.calendar-workspace .week-navigation .icon-btn {
+  background: transparent;
+  color: #927eaa;
+  border-radius: 11px;
+}
+.calendar-workspace .week-navigation .btn {
+  background: white;
+  border-color: #eee8f5;
+  color: #765a9a;
+  padding-inline: 12px;
+  border-radius: 11px;
+}
+.child-app .calendar-workspace .week-table thead th {
+  padding-block: 12px;
+  background: #fff;
+  border-top: 3px solid transparent;
+  border-bottom-color: #eee9f4;
+}
+.child-app .calendar-workspace .week-table thead .week-today {
+  background: #f1eafa;
+  border-top-color: #9b80c2;
+}
+.calendar-workspace .week-table thead strong {
+  font-size: 21px;
+  letter-spacing: -0.5px;
+  color: #594568;
+}
+.calendar-workspace .week-day-name {
+  color: #9685a3;
+  font-size: 12px;
+}
+.child-app .calendar-workspace .week-table .week-day-tasks {
+  position: relative;
+  background: #faf9fc;
+  padding: 12px 8px;
+  border-right-color: #eeeaf4;
+}
+.child-app .calendar-workspace .week-table .week-day-tasks[data-can-add] {
+  padding-bottom: 66px;
+}
+.child-app .calendar-workspace .week-table .week-day-tasks.week-today {
+  background: #f5f0fc;
+}
+.calendar-workspace .week-day-list {
+  gap: 10px;
+}
+.calendar-workspace .week-day-tasks[data-can-add] {
+  cursor: pointer;
+}
+.week-add-task {
+  position: absolute;
+  bottom: 12px;
+  left: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: calc(100% - 16px);
+  min-height: 44px;
+  margin: 0;
+  padding: 8px;
+  border: 1px dashed #d9cde8;
+  border-radius: 12px;
+  background: transparent;
+  color: #927eaa;
+  font-size: 12px;
+}
+.week-add-task:hover {
+  background: #eee9f5;
+  color: #684994;
+}
+.week-add-task:focus-visible {
+  outline: 2px solid #7960b2;
+  outline-offset: 2px;
+}
+.calendar-workspace .week-task-state:disabled {
+  cursor: wait;
+  opacity: 0.6;
+}
+.calendar-workspace .week-day-list .week-task-state {
+  border-color: #eee9f3;
+  border-radius: 14px;
+  box-shadow: 0 2px 6px #49336904;
+}
+.calendar-workspace .week-day-list .week-task-state.done {
+  border-color: #e1ece5;
+  background: #f3f8f4;
+}
+.calendar-workspace .week-card-name {
+  font-size: 13px;
+  color: #61516f;
+}
+.calendar-workspace .week-task-state > .week-card-status {
+  background: transparent;
+  padding: 2px 0;
+}
+.calendar-workspace .week-task-state.done .week-card-status {
+  background: transparent;
+}
+.calendar-workspace .week-table tfoot td {
+  background: #fdfcfe;
+}
+@media (min-width: 700px) {
+  .child-app .calendar-workspace .today-tasks .task-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+  }
+  .calendar-workspace .task-list > .empty {
+    grid-column: 1 / -1;
+  }
+  .child-app .calendar-workspace .today-tasks .task-row {
+    min-height: 106px;
+    padding: 18px;
+  }
+  .calendar-workspace .task-list-toolbar {
+    margin-bottom: 20px;
+  }
+  .child-app .calendar-workspace .section-title h2 {
+    font-size: 23px;
+  }
+}
+@media (max-width: 600px) {
+  .child-app .calendar-workspace {
+    border-radius: 20px;
+  }
+  .child-app .calendar-workspace.is-today {
+    border-radius: 0;
+  }
+  .child-app .calendar-workspace .today-tasks .task-row {
+    padding: 12px 13px;
+    border-radius: 17px;
+  }
+  .child-app .calendar-workspace .today-tasks .task-list {
+    gap: 10px;
+  }
+  .child-app .calendar-workspace .today-tasks > .section-heading {
+    margin-bottom: 8px;
+  }
+  .calendar-workspace .calendar-footer {
+    padding: 10px;
+  }
+  .child-app .calendar-workspace .week-table {
+    min-width: 1120px;
+  }
+  .child-app .calendar-workspace .week-table .week-day-tasks {
+    padding: 10px 6px;
+  }
+  .calendar-workspace .week-add-task {
+    bottom: 10px;
+    left: 6px;
+    width: calc(100% - 12px);
+  }
+}

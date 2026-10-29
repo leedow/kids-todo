@@ -1,14 +1,4 @@
-import {
-  BookOpen,
-  CalendarDays,
-  ChevronDown,
-  Gift,
-  LogOut,
-  Plus,
-  Sparkles,
-  Sun,
-  X,
-} from 'lucide-react'
+import { BookOpen, CalendarDays, ChevronDown, Gift, LogOut, Plus, Sparkles, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
 import { avatars } from '../components/icons'
@@ -22,10 +12,10 @@ export function ChildLayout() {
   const [adding, setAdding] = useState(false)
   const toast = useToast()
   const me = useMe()
-  const { pathname } = useLocation()
+  const { pathname, search } = useLocation()
   useEffect(() => {
     window.scrollTo(0, 0)
-  }, [pathname, activeId])
+  }, [pathname, search, activeId])
   if (loading) return <Loading />
   if (!active) return <LoginForm />
   return (
@@ -37,10 +27,7 @@ export function ChildLayout() {
           aria-label="切换儿童账号"
         >
           <span className="avatar">{avatars[active.avatar_key] ?? '🦊'}</span>
-          <span>
-            {active.display_name}
-            <small>我的成长空间</small>
-          </span>
+          <span>{active.display_name}</span>
           <ChevronDown size={15} />
         </button>
         <Link to="/" className="child-wordmark">
@@ -126,10 +113,6 @@ export function ChildLayout() {
 function Navigation() {
   return (
     <>
-      <NavLink to="/" end aria-label="今日任务">
-        <Sun size={19} />
-        <span>今日</span>
-      </NavLink>
       <NavLink to="/calendar" aria-label="成长日历">
         <CalendarDays size={19} />
         <span>日历</span>

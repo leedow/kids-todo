@@ -10,9 +10,9 @@ import { CollectionPage } from './features/collection'
 import { LoginForm } from './features/login'
 import { RewardsPage } from './features/rewards'
 import { TasksPage } from './features/tasks'
-import { TodayPage } from './features/today'
 import './styles/index.css'
 import './styles/child-app.css'
+import './styles/calendar-workspace.css'
 
 const client = new QueryClient({
   defaultOptions: { queries: { retry: false, staleTime: 15000 }, mutations: { retry: false } },
@@ -26,7 +26,7 @@ createRoot(document.getElementById('root')!).render(
             <Route path="/admin/login" element={<LoginForm admin />} />
             <Route path="/admin/*" element={<AdminApp />} />
             <Route element={<ChildLayout />}>
-              <Route index element={<TodayPage />} />
+              <Route index element={<Navigate to="/calendar?mode=today" replace />} />
               <Route path="tasks" element={<TasksPage />} />
               <Route path="calendar" element={<CalendarPage />} />
               <Route path="collection" element={<CollectionPage />} />

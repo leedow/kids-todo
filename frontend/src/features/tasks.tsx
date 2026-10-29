@@ -16,6 +16,7 @@ import { api } from '../api/client'
 import type { Day, Page, Task, TaskInput } from '../api/types'
 import { useAccounts, useMe, useToast } from '../app/context'
 import { icons, TaskIcon } from '../components/icons'
+import { prepareTaskSound, useTaskFeedback, type TaskFeedback } from '../components/task-feedback'
 import { Button, Empty, ErrorState, Loading, Modal, Pager } from '../components/ui'
 
 export function useToday() {
@@ -30,13 +31,57 @@ export function useToday() {
   })
 }
 
+export function useTaskCompletion() {
+  const { activeId } = useAccounts()
+  const client = useQueryClient()
+  const toast = useToast()
+  const { feedback, confirm } = useTaskFeedback()
+  const mutation = useMutation({
+    mutationFn: (task: Day['tasks'][number]) =>
+      api<Day>(`/me/task-instances/${task.instance_id}/completion`, {
+        method: 'PUT',
+        accountId: activeId,
+        body: { completed: !task.completed_at },
+      }),
+    onSuccess: (result) => {
+      client.setQueryData(['child', activeId, 'day', result.business_date], result)
+      client.setQueriesData<Day[]>({ queryKey: ['child', activeId, 'calendar', 'week'] }, (days) =>
+        days?.map((day) => (day.business_date === result.business_date ? result : day)),
+      )
+      void client.invalidateQueries({ queryKey: ['child', activeId, 'rewards'] })
+      void client.invalidateQueries({ queryKey: ['child', activeId, 'calendar'] })
+    },
+    onError: (error) => {
+      toast(error.message)
+      void client.invalidateQueries({ queryKey: ['child', activeId, 'day'] })
+      void client.invalidateQueries({ queryKey: ['child', activeId, 'calendar'] })
+    },
+  })
+  return {
+    ...mutation,
+    feedback,
+    complete: (task: Day['tasks'][number], target: HTMLElement) => {
+      if (mutation.isPending || !task.instance_id) return
+      prepareTaskSound()
+      const rect = target.getBoundingClientRect()
+      mutation.mutate(task, {
+        onSuccess: () => confirm(task.instance_id!, !task.completed_at, rect),
+      })
+    },
+  }
+}
+
 export function TaskForm({
   task,
   today,
+  initialDate = today,
+  initialRuleType = 'daily',
   onSaved,
 }: {
   task?: Task
   today: string
+  initialDate?: string
+  initialRuleType?: TaskInput['rule_type']
   onSaved: () => void
 }) {
   const { activeId } = useAccounts()
@@ -46,8 +91,8 @@ export function TaskForm({
     description: task?.description ?? '',
     icon: task?.icon ?? 'book',
     color: task?.color ?? 'mint',
-    rule_type: task?.rule_type ?? 'daily',
-    start_date: task?.start_date ?? today,
+    rule_type: task?.rule_type ?? initialRuleType,
+    start_date: task?.start_date ?? initialDate,
     end_date: task?.end_date ?? null,
     weekdays: task?.weekdays ?? [1, 2, 3, 4, 5],
     planned_time: task?.planned_time?.slice(0, 5) ?? null,
@@ -235,15 +280,17 @@ export function TaskRow({
   onComplete,
   onEdit,
   disabled = false,
+  feedback,
 }: {
   task: Day['tasks'][number]
-  onComplete?: () => void
+  onComplete?: (target: HTMLElement) => void
   onEdit?: () => void
   disabled?: boolean
+  feedback?: TaskFeedback['kind']
 }) {
   const done = !!task.completed_at
   return (
-    <article className={`task-row ${done ? 'task-done' : ''}`}>
+    <article className={`task-row ${done ? 'task-done' : ''}`} data-task-feedback={feedback}>
       <span className={`task-icon color-${task.color}`}>
         <TaskIcon name={task.icon} size={24} />
       </span>
@@ -278,7 +325,7 @@ export function TaskRow({
           aria-checked={done}
           aria-label={`${done ? '取消完成' : '完成'}${task.name}`}
           disabled={disabled}
-          onClick={onComplete}
+          onClick={(event) => onComplete(event.currentTarget)}
         >
           {done && <Check size={19} strokeWidth={3} />}
         </button>

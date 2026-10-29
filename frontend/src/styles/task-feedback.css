@@ -1,0 +1,174 @@
+.task-feedback {
+  position: fixed;
+  z-index: 100;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  color: #56886c;
+}
+.task-feedback-undo {
+  color: #9173b3;
+}
+.task-feedback-label {
+  position: absolute;
+  left: 0;
+  bottom: 30px;
+  white-space: nowrap;
+  padding: 7px 12px;
+  border-radius: 20px;
+  background: #f3fff7;
+  border: 1px solid #cce6d4;
+  box-shadow: 0 4px 14px #38574414;
+  font-size: 13px;
+  font-weight: 700;
+  animation: task-feedback-float 1s ease-out both;
+}
+.task-feedback-undo .task-feedback-label {
+  background: #faf6ff;
+  border-color: #e2d6ef;
+}
+.task-feedback-ring {
+  position: absolute;
+  width: 42px;
+  height: 42px;
+  left: -21px;
+  top: -21px;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  animation: task-feedback-ring 650ms ease-out both;
+}
+.task-feedback-undo .task-feedback-ring {
+  animation-name: task-feedback-return;
+}
+.task-feedback-spark {
+  position: absolute;
+  left: -7px;
+  top: -12px;
+  width: 14px;
+  text-align: center;
+  font-size: 20px;
+  line-height: 24px;
+  color: #b28bcf;
+  animation: task-feedback-spark 700ms ease-out both;
+}
+.task-feedback-spark:nth-of-type(3n) {
+  color: #d4a54a;
+}
+.child-app [data-task-feedback='complete'] {
+  animation: task-complete-glow 650ms ease-out;
+}
+.child-app [data-task-feedback='complete'] .check-button,
+.child-app [data-task-feedback='complete'] .week-card-status {
+  animation: task-check-pop 450ms ease-out;
+}
+.child-app [data-task-feedback='undo'] {
+  animation: task-undo-glow 550ms ease-out;
+}
+.child-app [data-task-feedback='undo'] .check-button,
+.child-app [data-task-feedback='undo'] .week-card-status {
+  animation: task-check-reset 400ms ease-out;
+}
+@keyframes task-feedback-float {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 8px) scale(0.9);
+  }
+  18%,
+  70% {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -12px) scale(1);
+  }
+}
+@keyframes task-feedback-ring {
+  from {
+    opacity: 0.5;
+    transform: scale(0.6);
+  }
+  to {
+    opacity: 0;
+    transform: scale(2);
+  }
+}
+@keyframes task-feedback-return {
+  from {
+    opacity: 0.4;
+    transform: scale(1.6);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.65);
+  }
+}
+@keyframes task-feedback-spark {
+  0% {
+    opacity: 0;
+    transform: rotate(var(--angle)) translateY(-12px) scale(0.4);
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(var(--angle)) translateY(-52px) scale(0.8);
+  }
+}
+@keyframes task-complete-glow {
+  25% {
+    box-shadow: 0 0 0 4px #a8d5b540;
+  }
+  100% {
+    box-shadow: 0 0 0 0 #a8d5b500;
+  }
+}
+@keyframes task-undo-glow {
+  25% {
+    box-shadow: 0 0 0 3px #bca7da30;
+  }
+  100% {
+    box-shadow: 0 0 0 0 #bca7da00;
+  }
+}
+@keyframes task-check-pop {
+  0% {
+    transform: scale(0.8);
+  }
+  45% {
+    transform: scale(1.18);
+  }
+  75% {
+    transform: scale(0.95);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes task-check-reset {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(0.85);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .task-feedback-ring,
+  .task-feedback-spark {
+    display: none;
+  }
+  .task-feedback-label {
+    animation: none;
+    transform: translateX(-50%);
+  }
+  .child-app [data-task-feedback],
+  .child-app [data-task-feedback] .check-button,
+  .child-app [data-task-feedback] .week-card-status {
+    animation: none;
+  }
+}
